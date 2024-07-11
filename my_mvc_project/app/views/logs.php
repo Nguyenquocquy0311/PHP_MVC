@@ -2,6 +2,10 @@
 <html lang="en">
 <?php
 session_start();
+if (!isset($_SESSION['username'])) {
+    header('Location: login.php');
+    exit();
+}
 $username = isset($_SESSION['username']) ? $_SESSION['username'] : '';
 ?>
 
@@ -9,164 +13,7 @@ $username = isset($_SESSION['username']) ? $_SESSION['username'] : '';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Logs</title>
-    <link rel="stylesheet" href="/public/css/styles.css">
-    <style>
-        body {
-            display: flex;
-            margin: 0;
-            background-color: #f4f4f4;
-        }
-
-        .sidebar {
-            width: 250px;
-            height: 100vh;
-            position: fixed;
-            background-color: white;
-            box-shadow: 2px 0 6px rgba(0, 0, 0, 0.1);
-        }
-
-        .sidebar h2 {
-            text-align: center;
-            padding: 20px;
-            margin: 0;
-        }
-
-        .sidebar ul {
-            list-style: none;
-            padding: 0;
-        }
-
-        .sidebar ul li {
-            padding: 15px;
-            text-align: center;
-        }
-
-        .sidebar ul li:hover {
-            cursor: pointer;
-            color: #06c9bc;
-        }
-
-        .content {
-            margin-left: 250px;
-            width: calc(100% - 250px);
-            background-color: #f0ebeb;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .header {
-            height: 60px;
-            background-color: white;
-            margin-top: 0;
-        }
-
-        .header h3 {
-            text-align: right;
-            padding-right: 10px;
-        }
-
-        .main {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 0 20px;
-        }
-
-        .header-main {
-            display: flex;
-            align-items: center;
-            width: 80%;
-        }
-
-        .header-main h2 {
-            flex: 1;
-        }
-
-        .search {
-            margin-left: auto;
-            display: flex;
-            align-items: center;
-        }
-
-        input[type="text"] {
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            margin-right: 10px;
-        }
-
-        button {
-            background-color: #ff6600;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            cursor: pointer;
-            border-radius: 10px;
-        }
-
-        button:hover {
-            background-color: #ff8c1a;
-        }
-
-        .table {
-            width: 80%;
-            margin: auto;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            background-color: white;
-            border-radius: 6px;
-        }
-
-        th,
-        td {
-            padding: 15px;
-            text-align: center;
-            border-bottom: 1px solid #ddd;
-        }
-
-        .total-row {
-            justify-content: space-between;
-            background-color: #f0f0f0;
-        }
-
-        .total-row td {
-            padding: 15px;
-            text-align: left;
-            border: 1px solid #ddd;
-        }
-
-        .total-row .total-label {
-            font-weight: bold;
-        }
-
-        .total-row .total-count {
-            text-align: center;
-            flex: 1;
-            font-weight: bold;
-        }
-
-        .page {
-            padding: 10px;
-            margin: 10px;
-            border-radius: 100px;
-            background-color: #3483eb;
-            color: white;
-            text-decoration: none;
-        }
-
-        .page:hover {
-            background-color: #6983ec;
-        }
-
-        .pagination {
-            margin-top: 15px;
-        }
-    </style>
+    <link rel="stylesheet" href="../../public/css/log.css">
 </head>
 
 <body>
@@ -176,6 +23,7 @@ $username = isset($_SESSION['username']) ? $_SESSION['username'] : '';
             <li><a href="/my_project/my_mvc_project/app/views/dashboard.php" style="text-decoration: none; color: black">Dashboard</a></li>
             <li style="color: #06c9bc;">Logs</li>
             <li><a href="/my_project/my_mvc_project/app/views/setting.php" style="text-decoration: none; color: black">Settings</a></li>
+            <li><button class="logout-btn" onclick="showLogoutModal()">Logout</button></li>
         </ul>
     </div>
     <div class="content">
@@ -204,7 +52,7 @@ $username = isset($_SESSION['username']) ? $_SESSION['username'] : '';
                     require_once '../controllers/LogController.php';
 
                     foreach ($logs as $log) : ?>
-                        <tr>
+                        <tr onclick="showDeviceModal('<?php echo $log['device_name']; ?>', '<?php echo $log['action']; ?>', '<?php echo $log['id']; ?>')">
                             <td><?php echo $log['id']; ?></td>
                             <td><?php echo $log['device_name']; ?></td>
                             <td><?php echo $log['action']; ?></td>
@@ -219,13 +67,61 @@ $username = isset($_SESSION['username']) ? $_SESSION['username'] : '';
             </div>
             <div class="pagination">
                 <?php for ($page = 1; $page <= $totalPages; $page++) : ?>
-                    <a class="page" href="?page=<?php echo $page; ?>" class="<?php if ($currentPage == $page) echo 'active'; ?>">
+                    <a class="page <?php if ($currentPage == $page) echo 'active'; ?>" href="?page=<?php echo $page; ?>">
                         <?php echo $page; ?>
                     </a>
                 <?php endfor; ?>
             </div>
         </div>
     </div>
+
+    <div id="logoutModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <p>Are you sure you want to logout?</p>
+            <button class="confirm-btn" onclick="confirmLogout()">Confirm</button>
+            <button class="cancel-btn" onclick="closeLogoutModal()">Cancel</button>
+        </div>
+    </div>
+
+    <div id="deviceModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <h3 id="deviceName"></h3>
+            <p id="deviceAction"></p>
+            <form id="toggleForm" method="POST" action="../controllers/LogController.php">
+                <input type="hidden" name="action" value="toggle">
+                <input type="hidden" id="device_id" name="device_id">
+                <input type="hidden" id="new_action" name="new_action">
+                <button type="submit" class="toggle-action-btn">Toggle Action</button>
+            </form>
+            <button class="cancel-btn" onclick="closeDeviceModal()">Close</button>
+        </div>
+    </div>
+
+    <script>
+        function showLogoutModal() {
+            document.getElementById('logoutModal').style.display = 'block';
+        }
+
+        function closeLogoutModal() {
+            document.getElementById('logoutModal').style.display = 'none';
+        }
+
+        function confirmLogout() {
+            window.location.href = '/my_project/my_mvc_project/app/views/logout.php';
+        }
+
+        function showDeviceModal(name, action, id) {
+            document.getElementById('deviceName').innerText = name;
+            document.getElementById('deviceAction').innerText = action;
+            document.getElementById('device_id').value = id;
+            document.getElementById('new_action').value = (action === 'Turned on') ? 'Turned off' : 'Turned on';
+            document.getElementById('deviceModal').style.display = 'block';
+        }
+
+        function closeDeviceModal() {
+            document.getElementById('deviceModal').style.display = 'none';
+        }
+    </script>
 </body>
 
 </html>

@@ -1,0 +1,306 @@
+body {
+    display: flex;
+    margin: 0;
+    background-color: #f4f4f4;
+}
+
+.sidebar {
+    width: 250px;
+    height: 100vh;
+    position: fixed;
+    background-color: white;
+    box-shadow: 2px 0 6px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar h2 {
+    text-align: center;
+    padding: 20px;
+    margin: 0;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+}
+
+.sidebar ul li {
+    padding: 15px;
+    text-align: center;
+}
+
+.sidebar ul li a {
+    text-decoration: none;
+}
+
+.sidebar ul li:hover {
+    cursor: pointer;
+    color: #06c9bc;
+}
+
+.content {
+    margin-left: 250px;
+    width: calc(100% - 250px);
+    background-color: #f0ebeb;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.header {
+    height: 60px;
+    background-color: white;
+    margin-top: 0;
+    position: fixed;
+    right: 0;
+    width: calc(100% - 250px);
+    box-shadow: 4px 0 6px rgba(0, 0, 0, 0.1);
+}
+
+.header h3 {
+    text-align: right;
+    padding-right: 10px;
+}
+
+.table {
+    padding-top: 8px;
+    margin: 0 auto;
+    width: 80%;
+}
+
+table,
+tr,
+td {
+    padding: 16px;
+    border-collapse: collapse;
+    border-bottom: 1px solid black;
+    background-color: white;
+}
+
+table {
+    margin: auto;
+    border-radius: 8px;
+    box-shadow: 4px 6px 6px rgba(0, 0, 0, 0.3);
+}
+
+table th {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    padding-left: 10px;
+    padding-right: 10px;
+    text-align: center;
+}
+
+table td {
+    text-align: left;
+}
+
+.total-row {
+    justify-content: space-between;
+    background-color: #f0f0f0;
+}
+
+.total-row td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.total-row .total-label {
+    font-weight: bold;
+}
+
+.total-row .total-count {
+    text-align: left;
+    flex: 1;
+}
+
+.action {
+    background-color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.action:hover {
+    color: blue;
+}
+
+.main {
+    margin-top: 60px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0 20px;
+    background-color: #edebeb;
+}
+
+.chart-form {
+    display: flex;
+    justify-content: center;
+}
+
+.chart {
+    max-width: 420px;
+    max-height: 360px;
+    background-color: white;
+    margin: 10px;
+    border-radius: 4px;
+}
+
+.form-add {
+    width: 420px;
+    height: 360px;
+    background-color: white;
+    margin: 10px;
+    padding: 0 10px;
+    border-radius: 4px;
+}
+
+.form-add h2 {
+    margin-bottom: 20px;
+}
+
+.form-add input {
+    width: 90%;
+    padding: 12px;
+    margin: 10px 0;
+    background-color: #f0efed;
+    border: none;
+    box-shadow: 0 4px 0 rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+}
+
+.form-add button {
+    background-color: #ff6600;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    margin-top: 8px;
+    margin-right: 20px;
+    border-radius: 7px;
+    font-weight: bold;
+}
+
+.form-add button:hover {
+    background-color: #ff8c1a;
+}
+
+.form-edit {
+    width: 420px;
+    height: 360px;
+    background-color: white;
+    margin: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
+    border-radius: 4px;
+}
+
+.form-edit h4 {
+    margin-bottom: 12px;
+}
+
+.form-edit input {
+    width: 90%;
+    padding: 10px;
+    margin: 4px 0;
+    background-color: #f0efed;
+    border: none;
+    border-radius: 5px;
+}
+
+.form-edit button {
+    background-color: #ff6600;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    cursor: pointer;
+    margin-top: 8px;
+    margin-right: 20px;
+    border-radius: 7px;
+    font-weight: bold;
+}
+
+.form-edit button:hover {
+    background-color: #ff8c1a;
+}
+
+.footer {
+    display: flex;
+    justify-content: center;
+}
+
+.page {
+    padding: 10px;
+    margin: 10px;
+    border-radius: 100px;
+    background-color: #3483eb;
+    color: white;
+    text-decoration: none;
+}
+
+.page:hover {
+    background-color: #6983ec;
+}
+
+.pagination {
+    margin-top: 15px;
+    display: flex;
+    justify-content: center;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 400px;
+    text-align: center;
+    border-radius: 10px;
+}
+
+.modal-content button {
+    margin: 10px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.modal-content .confirm-btn {
+    background-color: #f44336;
+    color: white;
+}
+
+.modal-content .cancel-btn {
+    background-color: #c3c2c2;
+    color: white;
+}
+
+#cancel-edit {
+    background-color: #c3c2c2;
+    color: white;
+}
+
+.logout-btn {
+    background-color: rgb(248, 37, 37);
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+}

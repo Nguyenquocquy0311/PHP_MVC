@@ -4,6 +4,18 @@ require_once '../models/Log.php';
 
 $logModel = new Log($connect);
 
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'toggle') {
+    $deviceId = $_POST['device_id'];
+    $newAction = $_POST['new_action'];
+
+    if ($logModel->toggleDeviceAction($deviceId, $newAction)) {
+        header('Location: /my_project/my_mvc_project/app/views/logs.php');
+        return;
+    } else {
+        echo "Failed to toggle device action.";
+    }
+}
+
 $perPage = 10;
 $currentPage = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 

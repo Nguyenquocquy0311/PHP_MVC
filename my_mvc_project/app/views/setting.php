@@ -10,108 +10,7 @@ $password = isset($_SESSION['password']) ? $_SESSION['password'] : '';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Settings</title>
-    <link rel="stylesheet" href="/public/css/styles.css">
-    <style>
-        body {
-            display: flex;
-            margin: 0;
-            background-color: #f4f4f4;
-        }
-
-        .sidebar {
-            width: 250px;
-            height: 100vh;
-            position: fixed;
-            background-color: white;
-            box-shadow: 2px 0 6px rgba(0, 0, 0, 0.1);
-        }
-
-        .sidebar h2 {
-            text-align: center;
-            padding: 20px;
-            margin: 0;
-        }
-
-        .sidebar ul {
-            list-style: none;
-            padding: 0;
-        }
-
-        .sidebar ul li {
-            padding: 15px;
-            text-align: center;
-        }
-
-        .sidebar ul li:hover {
-            cursor: pointer;
-            color: #06c9bc;
-        }
-
-        .content {
-            margin-left: 250px;
-            width: calc(100% - 250px);
-            background-color: #f0ebeb;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .header {
-            height: 60px;
-            background-color: white;
-            margin-top: 0;
-        }
-
-        .header h3 {
-            text-align: right;
-            padding-right: 10px;
-        }
-
-        .main {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 0 20px;
-        }
-
-        .form {
-            background-color: white;
-            margin-top: 20px;
-            border-radius: 8px;
-            padding: 12px;
-            text-align: center;
-            width: 400px;
-            height: 360px;
-        }
-
-        input {
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            margin-right: 10px;
-            margin-top: 16px;
-        }
-
-        button {
-            background-color: #ff6600;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            cursor: pointer;
-            border-radius: 10px;
-            margin-top: 20px;
-        }
-
-        button:hover {
-            background-color: #ff8c1a;
-        }
-
-        .footer {
-            display: flex;
-            justify-content: center;
-        }
-    </style>
+    <link rel="stylesheet" href="../../public/css/setting.css">
 </head>
 
 <body>
@@ -121,6 +20,7 @@ $password = isset($_SESSION['password']) ? $_SESSION['password'] : '';
             <li><a href="/my_project/my_mvc_project/app/views/dashboard.php" style="text-decoration: none; color: black">Dashboard</a></li>
             <li><a href="/my_project/my_mvc_project/app/views/logs.php" style="text-decoration: none; color: black">Logs</a></li>
             <li style="color: #06c9bc;">Settings</li>
+            <li><button class="logout-btn" onclick="showLogoutModal()">Logout</button></li>
         </ul>
     </div>
     <div class="content">
@@ -144,7 +44,29 @@ $password = isset($_SESSION['password']) ? $_SESSION['password'] : '';
                 <?php endif; ?>
             </div>
         </div>
+
+        <div id="logoutModal" class="modal" style="display: none;">
+            <div class="modal-content">
+                <p>Are you sure you want to logout?</p>
+                <button class="confirm-btn" onclick="confirmLogout()">Confirm</button>
+                <button class="cancel-btn" onclick="closeLogoutModal()">Cancel</button>
+            </div>
+        </div>
     </div>
+
+    <script>
+        function showLogoutModal() {
+            document.getElementById('logoutModal').style.display = 'block';
+        }
+
+        function closeLogoutModal() {
+            document.getElementById('logoutModal').style.display = 'none';
+        }
+
+        function confirmLogout() {
+            window.location.href = '/my_project/my_mvc_project/app/views/logout.php';
+        }
+    </script>
 </body>
 
 </html>

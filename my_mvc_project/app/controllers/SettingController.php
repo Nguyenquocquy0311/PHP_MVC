@@ -13,10 +13,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['username'], $_POST['pa
 
     if ($userModel->updateUser($userId, $username, $password)) {
         header('Location: ../views/settings.php');
-        exit;
+        return;
     } else {
         $error = "Lỗi khi cập nhật thông tin người dùng";
         header('Location: ../views/settings.php?error=' . urlencode($error));
-        exit;
+        return;
     }
 }

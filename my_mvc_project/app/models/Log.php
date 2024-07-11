@@ -47,4 +47,51 @@ class Log
         $row = mysqli_fetch_assoc($result);
         return $row['total'];
     }
+
+    public function toggleDeviceAction($deviceId, $newAction)
+    {
+        $currentAction = $this->getCurrentAction($deviceId);
+
+        if ($currentAction === $newAction) {
+            return true;
+        }
+
+        try {
+            $sql = "UPDATE logs SET action = :newAction WHERE device_id = :deviceId";
+            $stmt = $this->connect->prepare($sql);
+            $stmt->bindParam(':newAction', $newAction);
+            $stmt->bindParam(':deviceId', $deviceId);
+            $stmt->execute();
+            return true;
+        } catch (PDOException $e) {
+            die("Lỗi trong khi cập nhật hành động: " . $e->getMessage());
+        }
+    }
+
+
+    private function getCurrentAction($deviceId)
+    {
+        try {
+            $sql = "SELECT action FROM logs WHERE device_id = :deviceId";
+            $stmt = $this->connect->prepare($sql);
+
+            if (!$stmt) {
+                throw new Exception("Prepare statement failed.");
+            }
+
+            $stmt->bindParam(':deviceId', $deviceId);
+            $stmt->execute();
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if (!$row) {
+                throw new Exception("No rows returned.");
+            }
+
+            return $row['action'];
+        } catch (PDOException $e) {
+            die("Lỗi trong khi lấy hành động hiện tại: " . $e->getMessage());
+        } catch (Exception $e) {
+            die("Lỗi trong khi lấy hành động hiện tại: " . $e->getMessage());
+        }
+    }
 }
