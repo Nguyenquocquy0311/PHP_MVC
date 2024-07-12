@@ -28,6 +28,7 @@ class User
         if (mysqli_stmt_execute($stmt)) {
             return true;
         } else {
+            echo "Lỗi: " . mysqli_error($this->connect);
             return false;
         }
     }

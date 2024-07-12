@@ -4,6 +4,7 @@
 session_start();
 $username = isset($_SESSION['username']) ? $_SESSION['username'] : '';
 $password = isset($_SESSION['password']) ? $_SESSION['password'] : '';
+$userId = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : '';
 ?>
 
 <head>
@@ -41,6 +42,13 @@ $password = isset($_SESSION['password']) ? $_SESSION['password'] : '';
                 </form>
                 <?php if (isset($_GET['error'])) : ?>
                     <p style="color: red;"><?php echo htmlspecialchars($_GET['error']); ?></p>
+                <?php endif; ?>
+
+                <?php if (isset($_SESSION['success'])) : ?>
+                    <div class="success-message">
+                        <p style="color:blue"><?php echo $_SESSION['success']; ?></p>
+                    </div>
+                    <?php unset($_SESSION['success']); ?>
                 <?php endif; ?>
             </div>
         </div>

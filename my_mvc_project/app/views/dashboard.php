@@ -81,9 +81,9 @@ $username = isset($_SESSION['username']) ? $_SESSION['username'] : '';
                         <input type="hidden" id="id" name="id">
                         <input type="text" id="name" name="name" required placeholder="Name">
                         <br>
-                        <input type="string" id="mac-address" name="mac-address" required placeholder="Mac Address">
+                        <input type="text" id="mac-address" name="mac-address" required placeholder="Mac Address" pattern="^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$" title="Enter a valid MAC address (e.g., 00:1A:2B:3C:4D:5E)">
                         <br>
-                        <input type="string" id="ip" name="ip" required placeholder="IP">
+                        <input type="text" id="ip" name="ip" required placeholder="IP" pattern="^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$" title="Enter a valid IP address (e.g., 192.168.0.1)">
                         <br>
                         <input type="number" id="power-consumption" name="power-consumption" required placeholder="Power Consumption">
                         <br>

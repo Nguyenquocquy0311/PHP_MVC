@@ -23,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             }
         } else {
             // Thêm thiết bị
-            if ($deviceModel->addDevice($name, $macAddress, $ip)) {
+            if ($deviceModel->addDevice($name, $macAddress, $ip, $powerConsumption)) {
                 header('Location: ' . $_SERVER['PHP_SELF']);
                 return;
             } else {

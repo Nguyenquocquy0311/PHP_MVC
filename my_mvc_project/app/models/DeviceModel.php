@@ -25,20 +25,20 @@ class DeviceModel
         return $devices;
     }
 
-    public function addDevice($name, $macAddress, $ip)
+    public function addDevice($name, $macAddress, $ip, $powerConsumption)
     {
-        $sql = "INSERT INTO devices (name, mac_address, ip, create_date, powerConsumption) VALUES (?, ?, ?, NOW(), 0)";
+        $sql = "INSERT INTO devices (name, mac_address, ip, create_date, powerConsumption) VALUES (?, ?, ?, NOW(), ?)";
         $stmt = mysqli_prepare($this->connect, $sql);
 
         if (!$stmt) {
             die("Lỗi chuẩn bị truy vấn: " . mysqli_error($this->connect));
         }
 
-        mysqli_stmt_bind_param($stmt, 'sss', $name, $macAddress, $ip);
+        mysqli_stmt_bind_param($stmt, 'ssss', $name, $macAddress, $ip, $powerConsumption);
         if (mysqli_stmt_execute($stmt)) {
             return true;
         } else {
-            return false;
+            die("Lỗi khi thực thi truy vấn: " . mysqli_error($this->connect));
         }
     }
 
